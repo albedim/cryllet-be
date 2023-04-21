@@ -27,7 +27,7 @@ class User(sql.Model):
     image: str = sql.Column(sql.String(140), nullable=True)
     affiliate: bool = sql.Column(sql.Boolean, nullable=False)
     premium: bool = sql.Column(sql.Boolean, nullable=False)
-    created_on: datetime.date = sql.Column(sql.String(40), nullable=False)
+    created_on: datetime.date = sql.Column(sql.Date, nullable=False)
 
     def __init__(self, first_name, last_name, email, username, password, introduction, birthday, image):
         self.first_name = first_name
@@ -41,7 +41,7 @@ class User(sql.Model):
         self.image = image
         self.affiliate = False
         self.premium = False
-        self.created_on = datetime.datetime.now().date()
+        self.created_on = datetime.date.today()
 
     def toJson(self):
         return {
@@ -57,7 +57,7 @@ class User(sql.Model):
             'created_on': str(self.created_on)
         }
 
-    def toJson_Image_Skills_Languages(self, image, skills, languages):
+    def toJson_Image_Skills_Languages_Editable(self, image, skills, languages, editable):
         return {
             'user_id': self.user_id,
             'first_name': self.first_name,
@@ -71,5 +71,27 @@ class User(sql.Model):
             'affiliate': self.affiliate,
             'skills': skills,
             'languages': languages,
+            'editable': editable,
+            'created_on': str(self.created_on)
+        }
+
+    def toJson_Portfolios_maxPortfolios_Editable(self, portfolios, editable, maxPortfolios):
+        return {
+            'user_id': self.user_id,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'email': self.email,
+            'username': self.username,
+            'birthday': self.birthday,
+            'introduction': self.introduction,
+            'premium': self.premium,
+            'affiliate': self.affiliate,
+            'portfolios_section': {
+                'portfolios': portfolios,
+                'editable': editable,
+                'addable': len(portfolios) < maxPortfolios,
+                'created_portfolios': len(portfolios),
+                'max_portfolios': maxPortfolios,
+            },
             'created_on': str(self.created_on)
         }

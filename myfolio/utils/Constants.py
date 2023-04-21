@@ -18,6 +18,10 @@ class Constants():
     ALREADY_CREATED = "This resource was already created"
     INVALID_REQUEST: str = "Invalid request"
 
+    MAX_PORTFOLIOS_AFFILIATE: int = 15
+    MAX_PORTFOLIOS_PREMIUM: int = 5
+    MAX_PORTFOLIOS: int = 2
+
     FRONTEND_URL = ''
     DEFAULT_IMAGE = 'myfolio/files/profileImages/default.png'
 

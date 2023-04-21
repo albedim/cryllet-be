@@ -52,10 +52,10 @@ def getById(userId):
     return UserService.getUserById(userId)
 
 
-@user.route("/get/username/<username>", methods=['GET'])
+@user.route("/get/username/<username>/<requestUserId>", methods=['GET'])
 @cross_origin()
-def getByUsername(username):
-    return UserService.getUserByUsername(username)
+def getByUsername(username, requestUserId):
+    return UserService.getUserByUsername(int(requestUserId), username)
 
 
 @user.route("/signup", methods=['POST'])

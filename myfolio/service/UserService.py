@@ -59,12 +59,17 @@ class UserService():
             return Utils.createWrongResponse(False, Constants.NOT_FOUND, 404), 404
 
     @classmethod
-    def getUserByUsername(cls, username):
+    def getUserByUsername(cls, requestUserId, username):
         try:
             user: User = UserRepository.getUserByUsername(username)
             languages: list[dict] = LanguageService.getLanguages(user.user_id)
             skills: list[dict] = SkillService.getSkills(user.user_id)
-            return user.toJson_Image_Skills_Languages(cls.encodeImage(user.image), skills, languages)
+            return user.toJson_Image_Skills_Languages_Editable(
+                cls.encodeImage(user.image),
+                skills,
+                languages,
+                requestUserId == user.user_id
+            )
         except AttributeError:
             return Utils.createWrongResponse(False, Constants.NOT_FOUND, 404), 404
 
