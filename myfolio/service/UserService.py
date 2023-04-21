@@ -5,6 +5,8 @@ from datetime import timedelta
 from flask_jwt_extended import create_access_token
 from myfolio.model.entity.User import User
 from PIL import Image
+from myfolio.model.repository.PortfolioRepository import PortfolioRepository
+from myfolio.model.repository.ProjectRepository import ProjectRepository
 from myfolio.model.repository.UserRepository import UserRepository
 from myfolio.service.LanguageService import LanguageService
 from myfolio.service.SkillService import SkillService
@@ -156,4 +158,26 @@ class UserService():
                     expires_delta=timedelta(weeks=4)),
                 "image": cls.encodeImage(user.image)
             }, 306), 306
+
+    @classmethod
+    def syncPortfolioPage(cls, username, portfolioId):
+        portfolio = PortfolioRepository.getPortfolio(portfolioId)
+        user = UserRepository.getUserByUsername(username)
+        if (portfolio is None or user is None) or (portfolio.user_id != user.user_id):
+            return Utils.createWrongResponse(False, Constants.NOT_ENOUGH_PERMISSIONS, 306), 306
+        else:
+            return Utils.createSuccessResponse(True, Constants.CREATED), 200
+
+    @classmethod
+    def syncProjectPage(cls, username, projectId):
+        project = ProjectRepository.getProject(projectId)
+        if project is None:
+            return Utils.createWrongResponse(False, Constants.NOT_ENOUGH_PERMISSIONS, 306), 306
+        else:
+            portfolio = PortfolioRepository.getPortfolioByProject(projectId)
+            user = UserRepository.getUserByUsername(username)
+            if (portfolio is None or user is None) or (portfolio.user_id != user.user_id):
+                return Utils.createWrongResponse(False, Constants.NOT_ENOUGH_PERMISSIONS, 306), 306
+            else:
+                return Utils.createSuccessResponse(True, Constants.CREATED), 200
 

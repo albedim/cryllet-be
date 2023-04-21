@@ -1,7 +1,4 @@
-import datetime
-
 from myfolio.configuration.config import sql
-from myfolio.utils.Constants import Constants
 
 
 #

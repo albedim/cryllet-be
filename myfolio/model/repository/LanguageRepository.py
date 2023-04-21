@@ -1,6 +1,5 @@
 from myfolio.configuration.config import sql
 from myfolio.model.entity.Language import Language
-from myfolio.model.entity.User import User
 
 
 #

@@ -62,3 +62,16 @@ def getByUsername(username, requestUserId):
 @cross_origin()
 def signup():
     return UserService.signup(request.json)
+
+
+@user.route("/sync/portfolio/<username>/<portfolioId>", methods=['GET'])
+@cross_origin()
+def syncPortfolioPage(username, portfolioId):
+    return UserService.syncPortfolioPage(username, portfolioId)
+
+
+@user.route("/sync/project/<username>/<projectId>", methods=['GET'])
+@cross_origin()
+def syncProjectPage(username, projectId):
+    return UserService.syncProjectPage(username, projectId)
+

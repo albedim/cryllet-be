@@ -1,15 +1,5 @@
-import base64
-import datetime
-import io
-from datetime import timedelta
-from flask_jwt_extended import create_access_token
-
 from myfolio.model.entity.Language import Language
-from myfolio.model.entity.User import User
-from PIL import Image
-
 from myfolio.model.repository.LanguageRepository import LanguageRepository
-from myfolio.model.repository.UserRepository import UserRepository
 from myfolio.utils.Constants import Constants
 from myfolio.utils.Utils import Utils
 
@@ -34,7 +24,7 @@ class LanguageService():
 
     @classmethod
     def getLanguages(cls, userId):
-        languages: list[Skill] = LanguageRepository.getLanguages(userId)
+        languages: list[Language] = LanguageRepository.getLanguages(userId)
         return Utils.createList(languages)
 
     @classmethod

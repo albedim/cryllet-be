@@ -1,6 +1,5 @@
 from myfolio.configuration.config import sql
 from myfolio.model.entity.Skill import Skill
-from myfolio.model.entity.User import User
 
 
 #

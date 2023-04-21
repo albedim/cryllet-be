@@ -1,17 +1,5 @@
-import base64
-import datetime
-import io
-from datetime import timedelta
-from flask_jwt_extended import create_access_token
-
 from myfolio.model.entity.Skill import Skill
-from myfolio.model.entity.Skill import Skill
-from myfolio.model.entity.User import User
-from PIL import Image
-
-from myfolio.model.repository.LanguageRepository import LanguageRepository
 from myfolio.model.repository.SkillRepository import SkillRepository
-from myfolio.model.repository.UserRepository import UserRepository
 from myfolio.utils.Constants import Constants
 from myfolio.utils.Utils import Utils
 

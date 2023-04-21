@@ -1,3 +1,4 @@
+from sqlalchemy import text
 from myfolio.configuration.config import sql
 from myfolio.model.entity.Portfolio import Portfolio
 
@@ -22,3 +23,19 @@ class PortfolioRepository():
     def getPortfolios(cls, userId):
         portfolios: list[Portfolio] = sql.session.query(Portfolio).filter(Portfolio.user_id == userId).all()
         return portfolios
+
+    @classmethod
+    def getPortfolioByProject(cls, projectId):
+        portfolio: list[Portfolio] = sql.session.query(Portfolio).from_statement(
+            text('SELECT portfolios.* '
+                 'FROM portfolios '
+                 'JOIN projects '
+                 'ON portfolios.portfolio_id = projects.portfolio_id '
+                 'AND projects.project_id = :projectId').params(projectId=projectId)
+        ).first()
+        return portfolio
+
+    @classmethod
+    def getPortfolio(cls, portfolioId):
+        portfolio: Portfolio = sql.session.query(Portfolio).filter(Portfolio.portfolio_id == portfolioId).first()
+        return portfolio

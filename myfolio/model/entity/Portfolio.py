@@ -38,3 +38,22 @@ class Portfolio(sql.Model):
             'skill': self.skill,
             'created_on': str(self.created_on)
         }
+
+    def toJson_Owner_Projects_Experiences_Editable_MaxProjects(self, owner, projects, experiences, editable, maxProjects):
+        return {
+            'portfolio_id': self.portfolio_id,
+            'title': self.title,
+            'description': self.description,
+            'user_id': self.user_id,
+            'skill': self.skill,
+            'owner': owner,
+            'projects_section': {
+                'projects': projects,
+                'max_projects': maxProjects,
+                'created_projects': len(projects),
+                'addable': len(projects) < maxProjects
+            },
+            'experiences': experiences,
+            'editable': editable,
+            'created_on': str(self.created_on)
+        }

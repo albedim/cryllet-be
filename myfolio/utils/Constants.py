@@ -22,6 +22,10 @@ class Constants():
     MAX_PORTFOLIOS_PREMIUM: int = 5
     MAX_PORTFOLIOS: int = 2
 
+    MAX_PROJECTS_AFFILIATE: int = 25
+    MAX_PROJECTS_PREMIUM: int = 10
+    MAX_PROJECTS: int = 3
+
     FRONTEND_URL = ''
     DEFAULT_IMAGE = 'myfolio/files/profileImages/default.png'
 
