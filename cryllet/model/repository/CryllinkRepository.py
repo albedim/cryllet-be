@@ -35,6 +35,12 @@ class CryllinkRepository():
         return cryllinks
 
     @classmethod
+    def addView(cls, cryllinkId):
+        cryllink: Cryllink = cls.getById(cryllinkId)
+        cryllink.views += 1
+        sql.session.commit()
+
+    @classmethod
     def remove(cls, cryllinkId):
         cryllink: Cryllink = sql.session.query(Cryllink).filter(Cryllink.cryllink_id == cryllinkId).delete()
         sql.session.commit()

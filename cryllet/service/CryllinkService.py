@@ -66,6 +66,11 @@ class CryllinkService():
             return Utils.createWrongResponse(False, Constants.MAX_CRYLLINKS_REACHED, 301), 301
 
     @classmethod
+    def addView(cls, cryllinkId):
+        CryllinkRepository.addView(cryllinkId)
+        return Utils.createSuccessResponse(True, Constants.CREATED)
+
+    @classmethod
     def addPayment(cls, request):
         if UserPermissions.canAddPayment(request['cryllink_id']):
             CryllinkRepository.add(

@@ -28,6 +28,12 @@ def create():
     return CryllinkService.add(request.json)
 
 
+@cryllink.route("/add_view/<cryllinkId>", methods=['PUT'])
+@cross_origin()
+def addView(cryllinkId):
+    return CryllinkService.addView(cryllinkId)
+
+
 @cryllink.route("/remove/<cryllinkId>", methods=['DELETE'])
 @cross_origin()
 def remove(cryllinkId):

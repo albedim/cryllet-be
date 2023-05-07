@@ -4,6 +4,7 @@ import io
 from datetime import timedelta
 from typing import Any, Tuple
 
+from flask import Response
 from flask_jwt_extended import create_access_token
 from cryllet.model.entity.User import User
 from cryllet.model.repository.UserRepository import UserRepository
@@ -78,7 +79,7 @@ class UserService():
         else:
             token: str = Utils.createLink(40)
             UserRepository.createForgottenPasswordToken(user, token)
-            # Utils.sendPasswordForgottenEmail(user.email, token)
+            Utils.sendPasswordForgottenEmail(user.email, token)
             return Utils.createSuccessResponse(True, Constants.CREATED), 200
 
     @classmethod
@@ -90,14 +91,14 @@ class UserService():
             return Utils.createSuccessResponse(True, user.user_id), 200
 
     @classmethod
-    def checkUsername(cls, username):
+    def checkUsername(cls, username) -> tuple[Any, int] | dict:
         if cls.existsByUsername(username):
             return Utils.createWrongResponse(False, Constants.ALREADY_CREATED, 409), 409
         else:
             return Utils.createSuccessResponse(True, None)
 
     @classmethod
-    def changePassword(cls, request):
+    def changePassword(cls, request) -> tuple[Any, int] | dict:
         UserRepository.changePassword(request['user_id'], request['new_password'])
         return Utils.createSuccessResponse(True, Constants.CREATED)
 
