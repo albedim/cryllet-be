@@ -33,17 +33,23 @@ class CryllinkService():
             return Utils.createWrongResponse(False, Constants.NOT_FOUND, 404), 404
         else:
             cryllinks: list = CryllinkRepository.getCryllinksOf(userId)
+            result = []
+            for cryllink in cryllinks:
+                if UserPermissions.canAddPayment(cryllink.cryllink_id):
+                    result.append(cryllink.toJson_Locked(False))
+                else:
+                    result.append(cryllink.toJson_Locked(True))
             return {
-                "created_cryllinks": len(cryllinks),
-                "max_cryllinks": UserPermissions.getMaxCryllinksOf(userId),
-                "cryllinks": Utils.createList(cryllinks)
+                "max_payments": UserPermissions.getMaxPayments(user.user_id),
+                "max_cryllinks": 5,
+                "cryllinks": result
             }
 
     @classmethod
     def get(cls, code):
-        cryllink: Cryllink = CryllinkRepository.get(code)
+        cryllink: Cryllink = CryllinkRepository.getByCode(code)
         user: dict = UserService.getUserById(cryllink.user_id)
-        return cryllink.toJson_Owner(user)
+        return cryllink.toJson_Owner_Locked(user, cryllink.payments >= UserPermissions.getMaxPayments(cryllink.user_id))
 
     @classmethod
     def remove(cls, cryllinkId):
@@ -53,8 +59,21 @@ class CryllinkService():
     @classmethod
     def add(cls, request):
         cryllinks: list = CryllinkRepository.getCryllinksOf(request['user_id'])
-        if not UserPermissions.canAdd(request['user_id'], len(cryllinks)):
-            return Utils.createWrongResponse(False, Constants.MAX_CRYLLINKS_REACHED, 301), 301
-        else:
-            CryllinkRepository.add(request['user_id'], Utils.createCode(4), Constants.CRYPTO[request['crypto']], request['crypto'], request['description'], request['address'])
+        if len(cryllinks) < 5:
+            CryllinkRepository.add(request['user_id'], Utils.createCode(10), Constants.CRYPTO[request['crypto']], request['crypto'], request['description'], request['address'])
             return Utils.createSuccessResponse(True, Constants.CREATED)
+        else:
+            return Utils.createWrongResponse(False, Constants.MAX_CRYLLINKS_REACHED, 301), 301
+
+    @classmethod
+    def addPayment(cls, request):
+        if UserPermissions.canAddPayment(request['cryllink_id']):
+            CryllinkRepository.add(
+                request['user_id'],
+                Utils.createCode(10),
+                Constants.CRYPTO[request['crypto']], request['crypto'],
+                request['description'], request['address']
+            )
+            return Utils.createSuccessResponse(True, Constants.CREATED)
+        else:
+            return Utils.createWrongResponse(False, Constants.MAX_CRYLLINKS_REACHED, 301), 301

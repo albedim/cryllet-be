@@ -16,15 +16,19 @@ from cryllet.utils.Constants import Constants
 class User(sql.Model):
     __tablename__ = 'users'
     user_id: int = sql.Column(sql.Integer, primary_key=True)
+    password_forget_token: str = sql.Column(sql.String(40), nullable=True)
     username: str = sql.Column(sql.String(20), nullable=False)
     email: str = sql.Column(sql.String(40), nullable=False)
     password: str = sql.Column(sql.String(40), nullable=False)
+    expires_on: datetime.date = sql.Column(sql.Date, nullable=True)
     premium: bool = sql.Column(sql.Boolean, nullable=False)
 
     def __init__(self, username, email, password):
         self.email = email
         self.password = password
         self.username = username
+        self.expires_on = None
+        self.password_forget_token = True
         self.premium = False
 
     def toJson(self):

@@ -26,7 +26,7 @@ class UserService():
         try:
             user: User = UserRepository.signin(
                 request['email'],
-                hash(request['password'])
+                request['password']
             )
             if user is not None:
                 return Utils.createSuccessResponse(True, {
@@ -64,7 +64,7 @@ class UserService():
                 UserRepository.signup(
                     request['username'],
                     request['email'],
-                    hash(request['password']),
+                    request['password'],
                 )
                 return Utils.createSuccessResponse(True, Constants.CREATED)
         except KeyError:
@@ -76,9 +76,9 @@ class UserService():
         if user is None:
             return Utils.createWrongResponse(False, Constants.NOT_FOUND, 404), 404
         else:
-            token: str = Utils.createLink(140)
+            token: str = Utils.createLink(40)
             UserRepository.createForgottenPasswordToken(user, token)
-            Utils.sendPasswordForgottenEmail(user.email, token)
+            # Utils.sendPasswordForgottenEmail(user.email, token)
             return Utils.createSuccessResponse(True, Constants.CREATED), 200
 
     @classmethod
@@ -95,5 +95,10 @@ class UserService():
             return Utils.createWrongResponse(False, Constants.ALREADY_CREATED, 409), 409
         else:
             return Utils.createSuccessResponse(True, None)
+
+    @classmethod
+    def changePassword(cls, request):
+        UserRepository.changePassword(request['user_id'], request['new_password'])
+        return Utils.createSuccessResponse(True, Constants.CREATED)
 
 

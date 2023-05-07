@@ -40,10 +40,16 @@ class UserRepository():
 
     @classmethod
     def createForgottenPasswordToken(cls, user, token) -> None:
-        user.password_forgotten_token = token
+        user.password_forget_token = token
         sql.session.commit()
 
     @classmethod
     def getUserByPasswordForgottenToken(cls, token) -> User:
-        user: User = sql.session.query(User).filter(User.password_forgotten_token == token).first()
+        user: User = sql.session.query(User).filter(User.password_forget_token == token).first()
         return user
+
+    @classmethod
+    def changePassword(cls, userId, password) -> User:
+        user: User = cls.getUserById(userId)
+        user.password = password
+        sql.session.commit()

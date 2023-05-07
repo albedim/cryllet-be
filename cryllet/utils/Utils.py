@@ -105,7 +105,7 @@ class Utils():
     def sendPasswordForgottenEmail(cls, email, token):
         msg = EmailMessage()
         msg.set_content(Constants.PASSWORD_FORGOTTEN_EMAIL.replace("{token}", token))
-        msg['Subject'] = 'Recupera la tua password'
+        msg['Subject'] = 'Cryllet - Forget password'
         msg['From'] = Constants.EMAIL
         msg['To'] = email
         server = smtplib.SMTP('smtp.gmail.com', 587)

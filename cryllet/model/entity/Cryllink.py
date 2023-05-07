@@ -16,8 +16,11 @@ from cryllet.utils.Constants import Constants
 class Cryllink(sql.Model):
     __tablename__ = 'cryllinks'
     cryllink_id: int = sql.Column(sql.Integer, primary_key=True)
+    views: int = sql.Column(sql.Integer, nullable=False)
+    money: int = sql.Column(sql.Integer, nullable=False)
+    payments: int = sql.Column(sql.Integer, nullable=False)
     user_id: int = sql.Column(sql.Integer, nullable=False)
-    code: str = sql.Column(sql.String(4), nullable=False)
+    code: str = sql.Column(sql.String(54), nullable=False)
     crypto: str = sql.Column(sql.String(3), nullable=False)
     crypto_name: str = sql.Column(sql.String(14), nullable=False)
     description: str = sql.Column(sql.String(140), nullable=False)
@@ -25,6 +28,9 @@ class Cryllink(sql.Model):
 
     def __init__(self, user_id, code, crypto_name, crypto, description, address):
         self.user_id = user_id
+        self.views = 0
+        self.payments = 0
+        self.money = 0
         self.code = code
         self.crypto = crypto
         self.crypto_name = crypto_name
@@ -34,6 +40,24 @@ class Cryllink(sql.Model):
     def toJson(self):
         return {
             'cryllink_id': self.cryllink_id,
+            'views': self.views,
+            'payments': self.payments,
+            'money': self.money,
+            'user_id': self.user_id,
+            'code': self.code,
+            'crypto_name': self.crypto_name,
+            'crypto': self.crypto,
+            'address': self.address,
+            'description': self.description
+        }
+
+    def toJson_Locked(self, locked):
+        return {
+            'cryllink_id': self.cryllink_id,
+            'locked': locked,
+            'views': self.views,
+            'payments': self.payments,
+            'money': self.money,
             'user_id': self.user_id,
             'code': self.code,
             'crypto_name': self.crypto_name,
@@ -45,11 +69,30 @@ class Cryllink(sql.Model):
     def toJson_Owner(self, user):
         return {
             'cryllink_id': self.cryllink_id,
+            'owner': user,
+            'views': self.views,
+            'payments': self.payments,
+            'money': self.money,
             'user_id': self.user_id,
             'code': self.code,
             'crypto_name': self.crypto_name,
             'crypto': self.crypto,
             'address': self.address,
-            'description': self.description,
-            'owner': user
+            'description': self.description
+        }
+
+    def toJson_Owner_Locked(self, user, locked):
+        return {
+            'cryllink_id': self.cryllink_id,
+            'locked': locked,
+            'owner': user,
+            'views': self.views,
+            'payments': self.payments,
+            'money': self.money,
+            'user_id': self.user_id,
+            'code': self.code,
+            'crypto_name': self.crypto_name,
+            'crypto': self.crypto,
+            'address': self.address,
+            'description': self.description
         }
