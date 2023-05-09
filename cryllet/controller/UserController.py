@@ -38,6 +38,12 @@ def signup():
     return UserService.signup(request.json)
 
 
+@user.route("/subscribe/<userId>", methods=['PUT'])
+@cross_origin()
+def subscribe(userId):
+    return UserService.setSubscription(userId)
+
+
 @user.route("/check/username/<username>", methods=['GET'])
 @cross_origin()
 def checkUsername(username):

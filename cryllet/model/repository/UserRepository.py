@@ -1,3 +1,5 @@
+import datetime
+
 from cryllet.configuration.config import sql
 from cryllet.model.entity.User import User
 
@@ -34,6 +36,11 @@ class UserRepository():
         return user
 
     @classmethod
+    def getAllUsers(cls) -> list:
+        users: list = sql.session.query(User).all()
+        return users
+
+    @classmethod
     def getUserByUsername(cls, username) -> User:
         user: User = sql.session.query(User).filter(User.username == username).first()
         return user
@@ -52,4 +59,16 @@ class UserRepository():
     def changePassword(cls, userId, password) -> User:
         user: User = cls.getUserById(userId)
         user.password = password
+        sql.session.commit()
+
+    @classmethod
+    def setExpired(cls, user) -> User:
+        user.premium = False
+        user.expires_on = None
+        sql.session.commit()
+
+    @classmethod
+    def setSubscription(cls, user, date) -> User:
+        user.premium = True
+        user.expires_on = date
         sql.session.commit()

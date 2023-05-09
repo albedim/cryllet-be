@@ -89,12 +89,12 @@ class Utils():
         return link
 
     @classmethod
-    def sendNewsEmail(cls, title, body, email):
+    def sendExpireEmail(cls, user):
         msg = EmailMessage()
-        msg.set_content(body)
-        msg['Subject'] = title
+        msg.set_content("Hey " + user.username + ", your subscription is expired. remember to renew it not to lock your cryllinks")
+        msg['Subject'] = "Cryllet - Subscription Expired"
         msg['From'] = Constants.EMAIL
-        msg['To'] = email
+        msg['To'] = user.email
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls()
         server.login(Constants.EMAIL, Constants.PASSWORD)

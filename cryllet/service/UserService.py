@@ -4,6 +4,7 @@ import io
 from datetime import timedelta
 from typing import Any, Tuple
 
+from dateutil.relativedelta import relativedelta
 from flask import Response
 from flask_jwt_extended import create_access_token
 from cryllet.model.entity.User import User
@@ -101,5 +102,15 @@ class UserService():
     def changePassword(cls, request) -> tuple[Any, int] | dict:
         UserRepository.changePassword(request['user_id'], request['new_password'])
         return Utils.createSuccessResponse(True, Constants.CREATED)
+
+    @classmethod
+    def setSubscription(cls, userId) -> tuple[Any, int] | dict:
+        user: User = UserRepository.getUserById(userId)
+        if user.premium:
+            return Utils.createWrongResponse(False, Constants.ALREADY_CREATED, 409), 409
+        else:
+            expiresOn = datetime.date.today() + relativedelta(months=1)
+            UserRepository.setSubscription(user, expiresOn)
+            return Utils.createSuccessResponse(True, Constants.CREATED)
 
 

@@ -17,6 +17,7 @@ class Constants():
     UP_TO_DATE: str = "Up To date"
     NOT_UP_TO_DATE: str = "Not Up To date"
     ALREADY_CREATED = "This resource was already created"
+    CRYLLINK_ALREADY_CREATED = "A cryllink with this address already exists"
     INVALID_REQUEST: str = "Invalid request"
 
     CRYPTO = {

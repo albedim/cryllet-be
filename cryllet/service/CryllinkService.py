@@ -46,6 +46,10 @@ class CryllinkService():
             }
 
     @classmethod
+    def existsByAddress(cls, address):
+        return CryllinkRepository.getByAddress(address) is not None
+
+    @classmethod
     def get(cls, code):
         cryllink: Cryllink = CryllinkRepository.getByCode(code)
         user: dict = UserService.getUserById(cryllink.user_id)
@@ -58,12 +62,15 @@ class CryllinkService():
 
     @classmethod
     def add(cls, request):
-        cryllinks: list = CryllinkRepository.getCryllinksOf(request['user_id'])
-        if len(cryllinks) < 5:
-            CryllinkRepository.add(request['user_id'], Utils.createCode(10), Constants.CRYPTO[request['crypto']], request['crypto'], request['description'], request['address'])
-            return Utils.createSuccessResponse(True, Constants.CREATED)
+        if cls.existsByAddress(request['address']):
+            return Utils.createWrongResponse(False, Constants.CRYLLINK_ALREADY_CREATED, 409), 409
         else:
-            return Utils.createWrongResponse(False, Constants.MAX_CRYLLINKS_REACHED, 301), 301
+            cryllinks: list = CryllinkRepository.getCryllinksOf(request['user_id'])
+            if len(cryllinks) < 5:
+                CryllinkRepository.add(request['user_id'], Utils.createCode(10), Constants.CRYPTO[request['crypto']], request['crypto'], request['description'], request['address'])
+                return Utils.createSuccessResponse(True, Constants.CREATED)
+            else:
+                return Utils.createWrongResponse(False, Constants.MAX_CRYLLINKS_REACHED, 301), 301
 
     @classmethod
     def addView(cls, cryllinkId):

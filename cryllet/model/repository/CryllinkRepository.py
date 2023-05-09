@@ -20,6 +20,12 @@ class CryllinkRepository():
         sql.session.commit()
 
     @classmethod
+    def getByAddress(cls, address):
+        cryllink: Cryllink = sql.session.query(Cryllink).filter(Cryllink.address == address).first()
+        return cryllink
+
+
+    @classmethod
     def getByCode(cls, code):
         cryllink: Cryllink = sql.session.query(Cryllink).filter(Cryllink.code == code).first()
         return cryllink
