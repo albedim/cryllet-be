@@ -25,6 +25,10 @@ class Constants():
         'eth': 'Ethereum'
     }
 
+    PROMO_CODES = [
+        'PREMIUMFREE'
+    ]
+
     EMAIL = 'crylletinc@gmail.com'
     PASSWORD = 'hlvvqpdubniuobbe'
     PASSWORD_FORGOTTEN_EMAIL: str = "Hey! \n Here's the link to recover your account: https://cryllet-fe.pages.dev/create_password/{token}"

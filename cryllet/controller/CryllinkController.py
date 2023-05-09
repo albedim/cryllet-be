@@ -34,6 +34,12 @@ def addView(cryllinkId):
     return CryllinkService.addView(cryllinkId)
 
 
+@cryllink.route("/add_payment/", methods=['PUT'])
+@cross_origin()
+def addPayment():
+    return CryllinkService.addPayment(request.json)
+
+
 @cryllink.route("/remove/<cryllinkId>", methods=['DELETE'])
 @cross_origin()
 def remove(cryllinkId):

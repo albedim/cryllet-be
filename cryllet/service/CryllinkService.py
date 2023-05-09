@@ -80,12 +80,8 @@ class CryllinkService():
     @classmethod
     def addPayment(cls, request):
         if UserPermissions.canAddPayment(request['cryllink_id']):
-            CryllinkRepository.add(
-                request['user_id'],
-                Utils.createCode(10),
-                Constants.CRYPTO[request['crypto']], request['crypto'],
-                request['description'], request['address']
-            )
+            CryllinkRepository.addPayment(request['cryllink_id'])
+            CryllinkRepository.addMoney(request['cryllink_id'], int(request['money']))
             return Utils.createSuccessResponse(True, Constants.CREATED)
         else:
             return Utils.createWrongResponse(False, Constants.MAX_CRYLLINKS_REACHED, 301), 301

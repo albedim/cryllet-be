@@ -63,11 +63,13 @@ class UserService():
             if cls.existsByEmail(request['email']):
                 return Utils.createWrongResponse(False, Constants.ALREADY_CREATED, 409), 409
             else:
-                UserRepository.signup(
+                user: User = UserRepository.signup(
                     request['username'],
                     request['email'],
                     request['password'],
                 )
+                if request['promo_code'] in Constants.PROMO_CODES:
+                    cls.setSubscription(user.user_id)
                 return Utils.createSuccessResponse(True, Constants.CREATED)
         except KeyError:
             return Utils.createWrongResponse(False, Constants.INVALID_REQUEST, 400), 400

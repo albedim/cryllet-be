@@ -47,6 +47,18 @@ class CryllinkRepository():
         sql.session.commit()
 
     @classmethod
+    def addPayment(cls, cryllinkId):
+        cryllink: Cryllink = cls.getById(cryllinkId)
+        cryllink.payments += 1
+        sql.session.commit()
+
+    @classmethod
+    def addMoney(cls, cryllinkId, money):
+        cryllink: Cryllink = cls.getById(cryllinkId)
+        cryllink.money += money
+        sql.session.commit()
+
+    @classmethod
     def remove(cls, cryllinkId):
         cryllink: Cryllink = sql.session.query(Cryllink).filter(Cryllink.cryllink_id == cryllinkId).delete()
         sql.session.commit()

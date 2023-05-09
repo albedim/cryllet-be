@@ -20,10 +20,11 @@ class UserRepository():
         return user
 
     @classmethod
-    def signup(cls, username, email, password) -> None:
+    def signup(cls, username, email, password) -> User:
         user: User = User(username, email, password)
         sql.session.add(user)
         sql.session.commit()
+        return user
 
     @classmethod
     def getUserById(cls, userId) -> User:
