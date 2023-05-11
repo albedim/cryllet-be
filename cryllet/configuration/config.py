@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_apscheduler import APScheduler
+# from flask_apscheduler import APScheduler
 from flask_sqlalchemy import SQLAlchemy
 from cryllet.utils.Constants import Constants
 from cryllet.utils.Utils import Utils
@@ -12,7 +12,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://' + config['username'] + ':' + 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_TOKEN_LOCATION'] = ['headers', 'query_string']
 app.config["JWT_SECRET_KEY"] = "super-secret"
-scheduler = APScheduler()
+# scheduler = APScheduler()
 sql = SQLAlchemy(app)
 
 

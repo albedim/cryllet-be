@@ -21,7 +21,7 @@ class Constants():
     INVALID_REQUEST: str = "Invalid request"
 
     CRYPTO = {
-        'btc': 'Bitcoin',
+        # 'btc': 'Bitcoin',
         'eth': 'Ethereum'
     }
 

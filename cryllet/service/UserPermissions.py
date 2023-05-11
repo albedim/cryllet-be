@@ -9,7 +9,7 @@ from cryllet.utils.Utils import Utils
 class UserPermissions():
 
     __MAX_PAYMENTS_PREMIUM = 250
-    __MAX_PAYMENTS_USER = 50
+    __MAX_PAYMENTS_USER = 250
 
     @classmethod
     def canAddPayment(cls, cryllinkId):

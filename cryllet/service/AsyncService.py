@@ -35,3 +35,6 @@ class AsyncService():
                         UserRepository.setExpired(user)
 
 
+AsyncService.checkExpiration()
+
+
