@@ -28,7 +28,7 @@ class UserService():
         try:
             user: User = UserRepository.signin(
                 request['email'],
-                request['password']
+                Utils.hash(request['password'])
             )
             if user is not None:
                 return Utils.createSuccessResponse(True, {
@@ -66,7 +66,7 @@ class UserService():
                 user: User = UserRepository.signup(
                     request['username'],
                     request['email'],
-                    request['password'],
+                    Utils.hash(request['password']),
                 )
                 if request['promo_code'] in Constants.PROMO_CODES:
                     cls.setSubscription(user.user_id)
@@ -102,7 +102,7 @@ class UserService():
 
     @classmethod
     def changePassword(cls, request) -> tuple[Any, int] | dict:
-        UserRepository.changePassword(request['user_id'], request['new_password'])
+        UserRepository.changePassword(request['user_id'], Utils.hash(request['new_password']))
         return Utils.createSuccessResponse(True, Constants.CREATED)
 
     @classmethod

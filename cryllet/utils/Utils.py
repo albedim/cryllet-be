@@ -50,6 +50,12 @@ class Utils():
 
     @classmethod
     def hash(cls, password: str):
+        hashedPassword = cls.__hash(password)
+        riHashedPassword = cls.__hash(hashedPassword)
+        return hashedPassword + riHashedPassword[::-1]
+
+    @classmethod
+    def __hash(cls, password: str):
         chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         hashedPassword = ""
         encryptedChars = "C0yZEIipDF23djS5muGMfnV6HtcW4q9BJLXlPakrghNeK1AsU8xRwQbzYO7Tov"
@@ -59,18 +65,6 @@ class Utils():
                     hashedPassword += encryptedChars[j]
                     break
         return hashedPassword
-
-    @classmethod
-    def unHash(cls, password: str):
-        chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        unhashedPassword = ""
-        encryptedChars = "C0yZEIipDF23djS5muGMfnV6HtcW4q9BJLXlPakrghNeK1AsU8xRwQbzYO7Tov"
-        for i in range(len(password)):
-            for j in range(len(encryptedChars)):
-                if password[i] == encryptedChars[j]:
-                    unhashedPassword += chars[j]
-                    break
-        return unhashedPassword
 
     @classmethod
     def createLink(cls, length):
