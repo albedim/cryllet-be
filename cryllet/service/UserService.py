@@ -26,9 +26,9 @@ class UserService():
     @classmethod
     def signin(cls, request: dict) -> tuple[Any, int] | Any:
         try:
-            user: User = UserRepository.signin(
-                request['email'],
-                Utils.hash(request['password'])
+            user: User = UserRepository.signinEmail(
+                request['email_username'],
+                request['password']
             )
             if user is not None:
                 return Utils.createSuccessResponse(True, {
@@ -114,5 +114,13 @@ class UserService():
             expiresOn = datetime.date.today() + relativedelta(months=1)
             UserRepository.setSubscription(user, expiresOn)
             return Utils.createSuccessResponse(True, Constants.CREATED)
+
+    @classmethod
+    def sync(cls, requestUser):
+        user = cls.getUserById(requestUser['user_id'])
+        if user == requestUser:
+            return Utils.createSuccessResponse(True, Constants.UP_TO_DATE)
+        else:
+            return Utils.createSuccessResponse(False, user)
 
 

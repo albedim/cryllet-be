@@ -41,6 +41,11 @@ class CryllinkRepository():
         return cryllinks
 
     @classmethod
+    def getAllCryllinks(cls):
+        cryllinks: list = sql.session.query(Cryllink).all()
+        return cryllinks
+
+    @classmethod
     def addView(cls, cryllinkId):
         cryllink: Cryllink = cls.getById(cryllinkId)
         cryllink.views += 1

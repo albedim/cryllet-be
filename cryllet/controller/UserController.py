@@ -50,3 +50,10 @@ def checkUsername(username):
     return UserService.checkUsername(username)
 
 
+@user.route("/sync", methods=['GET'])
+@cross_origin()
+@jwt_required()
+def sync():
+    return UserService.sync(get_jwt_identity())
+
+

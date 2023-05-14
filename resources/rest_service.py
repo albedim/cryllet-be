@@ -1,7 +1,7 @@
 config = {
   "name": "Cryllet",
   "author": "albedim",
-  "version": "1.3.0",
+  "version": "1.3.5",
   "history-versions": [
     "1.0.0 - first version",
     "1.0.5 - Password forget system was created",
@@ -9,6 +9,7 @@ config = {
     "1.1.5 - Expiring service added",
     "1.2.0 - Promo codes have been added",
     "1.2.5 - Bug Fixing",
-    "1.3.0 - Hash added"
+    "1.3.0 - Hash added",
+    "1.3.5 - User sync has been added"
   ]
 }

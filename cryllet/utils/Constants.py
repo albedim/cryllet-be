@@ -26,7 +26,7 @@ class Constants():
     }
 
     PROMO_CODES = [
-        'PREMIUMFREE'
+        # 'PREMIUMFREE'
     ]
 
     EMAIL = 'crylletinc@gmail.com'
