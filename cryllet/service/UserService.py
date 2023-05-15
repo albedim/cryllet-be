@@ -26,9 +26,9 @@ class UserService():
     @classmethod
     def signin(cls, request: dict) -> tuple[Any, int] | Any:
         try:
-            user: User = UserRepository.signinEmail(
+            user: User = UserRepository.signin(
                 request['email_username'],
-                request['password']
+                Utils.hash(request['password'])
             )
             if user is not None:
                 return Utils.createSuccessResponse(True, {

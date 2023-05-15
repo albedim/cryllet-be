@@ -17,16 +17,11 @@ from cryllet.model.entity.User import User
 class UserRepository():
 
     @classmethod
-    def signinEmail(cls, email, password) -> User:
+    def signin(cls, emailUsername, password) -> User:
         user: User = sql.session.query(User).filter(or_(
-            ((User.email == email) & (User.password == password)),
-            ((User.username == email) & (User.password == password))
+            ((User.email == emailUsername) & (User.password == password)),
+            ((User.username == emailUsername) & (User.password == password))
         )).first()
-        return user
-
-    @classmethod
-    def signinUsername(cls, username, password) -> User:
-        user: User = sql.session.query(User).filter(User.username == username).filter(User.password == password).first()
         return user
 
     @classmethod
